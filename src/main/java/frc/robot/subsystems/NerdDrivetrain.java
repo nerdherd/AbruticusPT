@@ -1,19 +1,33 @@
+package frc.robot.subsystems;
+
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveModuleConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import static frc.robot.Constants.PathPlannerConstants.kPPTranslationPIDConstants;
+import static frc.robot.Constants.PathPlannerConstants.kPPRotationPIDConstants;
+import static frc.robot.Constants.USE_VISION;
+
+
+
 public class NerdDrivetrain {
-    public final Field2 field;  
-    public boolean useMegaTag2 = faslse;
+    public final Field2d field;  
+    public boolean useMegaTag2 = false;
     
     
     public NerdDrivetrain(SwerveDrivetrainConstants drivetrainConstants, SwerveModuleConstants<?, ?, ?>... modules) {
-      super(drivetrainConstants, modules);
+        super(drivetrainConstants, modules);
 
-      RobotConfig RobotConfig = null;
+        RobotConfig RobotConfig = null;
       try {
         robotConfig = RobotConFig.fromGUISettings();
       } catch (Exception e) {
         e.printStackTrace();
       }
 
-      AutoBuilder.configure(
+        AutoBuilder.configure(
         this::getPose,
         this::resetPose,
         this::getChassisSpeeds,
@@ -28,7 +42,7 @@ public class NerdDrivetrain {
             robotConfig,
             () -> {
                 var alliance = DriverStation.getAlliance();
-                return alliance,isPresent() ? (alliance,get() == DriverStation.Alliance.Red) : false;
+                return alliance.isPresent() ? (alliance.get() == DriverStation.Alliance.Red) : false;
             },
             this        
         );
@@ -38,7 +52,7 @@ public class NerdDrivetrain {
 
     }
 
-    @Ovveride
+    @Override
     public void periodic() {
         field.setRobotPose(getPose());
         field.getObject("Look Ahead Ring Drive").setPose(getLookAheadPose(ShooterConstants.kLookAheadRingDriveFactor));
