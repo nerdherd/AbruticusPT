@@ -19,19 +19,15 @@ public class Controller {
     private PS4Controller ps4;
     private CommandPS5Controller cmdPS5;
     private PS5Controller ps5;
-    private GuliKit guliKit;
     private XboxController xbox;
     private CommandXboxController cmdXbox;
-    private Xbox360Controller xbox360;
 
     private final Type type;
 
     public enum Type {
         PS4,
         PS5,
-        GuliKit,
-        Xbox,
-        Xbox360
+        Xbox
     }
 
     /**
@@ -52,15 +48,9 @@ public class Controller {
                 cmdPS5 = new CommandPS5Controller(port);
                 ps5 = cmdPS5.getHID();
                 break;
-            case GuliKit:
-            // Use the appropriate contructor for GuliKit.
-                break;
             case Xbox:
                 cmdXbox = new CommandXboxController(port);
                 xbox = cmdXbox.getHID();
-                break;
-            case Xbox360:
-                xbox360 = new Xbox360Controller(port);
                 break;
         }
     }
@@ -74,9 +64,6 @@ public class Controller {
      */
     public Controller(int port, Type type, boolean isDigLeft, boolean isDigRight) {
         this.type = type;
-
-        if (type == Type.GuliKit)
-            guliKit = new GuliKit(port, isDigLeft, isDigRight);
     }
 
     /**
@@ -123,76 +110,51 @@ public class Controller {
      * @deprecated kept for previous versions
      */
     @Deprecated(forRemoval = false)
-    public Controller(int port, boolean isDigLeft, boolean isDigRight) {
-        this.type = Type.GuliKit;
-
-        guliKit = new GuliKit(port, isDigLeft, isDigRight);
-    }
+    
 
     // ***** BUTTON METHODS ***** //
 
-    public double getLeftX()            { switch (type) {case PS4: return ps4.getLeftX();           case PS5: return ps5.getLeftX();            case GuliKit: return guliKit.getLeftX();        case Xbox: return xbox.getLeftX();                      case Xbox360: return xbox360.getLeftX();        default: return 0.0;} }
-    public double getLeftY()            { switch (type) {case PS4: return ps4.getLeftY();           case PS5: return ps5.getLeftY();            case GuliKit: return guliKit.getLeftY();        case Xbox: return xbox.getLeftY();                      case Xbox360: return xbox360.getLeftY();        default: return 0.0;} }
-    public double getRightX()           { switch (type) {case PS4: return ps4.getRightX();          case PS5: return ps5.getRightX();           case GuliKit: return guliKit.getRightX();       case Xbox: return xbox.getRightX();                     case Xbox360: return xbox360.getRightX();       default: return 0.0;} }
-    public double getRightY()           { switch (type) {case PS4: return ps4.getRightY();          case PS5: return ps5.getRightY();           case GuliKit: return guliKit.getRightY();       case Xbox: return xbox.getRightY();                     case Xbox360: return xbox360.getRightY();       default: return 0.0;} }
-    public boolean getTriggerLeft()     { switch (type) {case PS4: return ps4.getL2Button();        case PS5: return ps5.getL2Button();         case GuliKit: return guliKit.getZL();           case Xbox: return xbox.getLeftTriggerAxis() >= 0.65;    case Xbox360: return xbox360.get2L();           default: return false;} }
-    public boolean getTriggerRight()    { switch (type) {case PS4: return ps4.getR2Button();        case PS5: return ps5.getR2Button();         case GuliKit: return guliKit.getZR();           case Xbox: return xbox.getRightTriggerAxis() >= 0.65;   case Xbox360: return xbox360.get2R();           default: return false;} }  
-    public boolean getBumperLeft()      { switch (type) {case PS4: return ps4.getL1Button();        case PS5: return ps5.getL1Button();         case GuliKit: return guliKit.getL();            case Xbox: return xbox.getLeftBumperButton();           case Xbox360: return xbox360.get1L();           default: return false;} }
-    public boolean getBumperRight()     { switch (type) {case PS4: return ps4.getR1Button();        case PS5: return ps5.getR1Button();         case GuliKit: return guliKit.getR();            case Xbox: return xbox.getRightBumperButton();          case Xbox360: return xbox360.get1R();           default: return false;} }    
-    public boolean getButtonUp()        { switch (type) {case PS4: return ps4.getTriangleButton();  case PS5: return ps5.getTriangleButton();   case GuliKit: return guliKit.getX();            case Xbox: return xbox.getXButton();                    case Xbox360: return xbox360.getTriangle();     default: return false;} }
-    public boolean getButtonRight()     { switch (type) {case PS4: return ps4.getCircleButton();    case PS5: return ps5.getCircleButton();     case GuliKit: return guliKit.getA();            case Xbox: return xbox.getAButton();                    case Xbox360: return xbox360.getCircle();       default: return false;} }
-    public boolean getButtonDown()      { switch (type) {case PS4: return ps4.getCrossButton();     case PS5: return ps5.getCrossButton();      case GuliKit: return guliKit.getB();            case Xbox: return xbox.getBButton();                    case Xbox360: return xbox360.getCross();        default: return false;} }
-    public boolean getButtonLeft()      { switch (type) {case PS4: return ps4.getSquareButton();    case PS5: return ps5.getSquareButton();     case GuliKit: return guliKit.getY();            case Xbox: return xbox.getYButton();                    case Xbox360: return xbox360.getSquare();       default: return false;} }
-    public boolean getDpadUp()          { switch (type) {case PS4: return ps4.getPOV() == 0;        case PS5: return ps5.getPOV() == 0;         case GuliKit: return guliKit.getDpadUp();       case Xbox: return xbox.getPOV() == 0;                   case Xbox360: return xbox360.getDpadUp();       default: return false;} }
-    public boolean getDpadRight()       { switch (type) {case PS4: return ps4.getPOV() == 90;       case PS5: return ps5.getPOV() == 90;        case GuliKit: return guliKit.getDpadRight();    case Xbox: return xbox.getPOV() == 90;                  case Xbox360: return xbox360.getDpadRight();    default: return false;} }
-    public boolean getDpadDown()        { switch (type) {case PS4: return ps4.getPOV() == 180;      case PS5: return ps5.getPOV() == 180;       case GuliKit: return guliKit.getDpadDown();     case Xbox: return xbox.getPOV() == 180;                 case Xbox360: return xbox360.getDpadDown();     default: return false;} }
-    public boolean getDpadLeft()        { switch (type) {case PS4: return ps4.getPOV() == 270;      case PS5: return ps5.getPOV() == 270;       case GuliKit: return guliKit.getDpadLeft();     case Xbox: return xbox.getPOV() == 270;                 case Xbox360: return xbox360.getDpadLeft();     default: return false;} }
-    public boolean getJoystickLeft()    { switch (type) {case PS4: return ps4.getL3Button();        case PS5: return ps5.getL3Button();         case GuliKit: return guliKit.getLeftJoy();      case Xbox: return xbox.getLeftStickButton();            case Xbox360: return xbox360.getLeftJoy();      default: return false;} }
-    public boolean getJoystickRight()   { switch (type) {case PS4: return ps4.getR3Button();        case PS5: return ps5.getR3Button();         case GuliKit: return guliKit.getRightJoy();     case Xbox: return xbox.getRightStickButton();           case Xbox360: return xbox360.getRightJoy();     default: return false;} }
-    public boolean getControllerLeft()  { switch (type) {case PS4: return ps4.getShareButton();     case PS5: return ps5.getCreateButton();     case GuliKit: return guliKit.getMinus();        case Xbox: return xbox.getStartButton();                case Xbox360: return xbox360.getShare();        default: return false;} }
-    public boolean getControllerRight() { switch (type) {case PS4: return ps4.getOptionsButton();   case PS5: return ps5.getOptionsButton();    case GuliKit: return guliKit.getPlus();         case Xbox: return xbox.getBackButton();                 case Xbox360: return xbox360.getOptions();      default: return false;} }
-    public Trigger triggerLeft()        { switch (type) {case PS4: return cmdPS4.L2();              case PS5: return cmdPS5.L2();               case GuliKit: return guliKit.triggerZL();       case Xbox: return cmdXbox.leftTrigger();                case Xbox360: return xbox360.trigger2L();       default: return null;} }
-    public Trigger triggerRight()       { switch (type) {case PS4: return cmdPS4.R2();              case PS5: return cmdPS5.R2();               case GuliKit: return guliKit.triggerZR();       case Xbox: return cmdXbox.rightTrigger();               case Xbox360: return xbox360.trigger2R();       default: return null;} }
-    public Trigger bumperLeft()         { switch (type) {case PS4: return cmdPS4.L1();              case PS5: return cmdPS5.L1();               case GuliKit: return guliKit.bumperL();         case Xbox: return cmdXbox.leftBumper();                 case Xbox360: return xbox360.bumper1L();        default: return null;} }
-    public Trigger bumperRight()        { switch (type) {case PS4: return cmdPS4.R1();              case PS5: return cmdPS5.R1();               case GuliKit: return guliKit.bumperR();         case Xbox: return cmdXbox.rightBumper();                case Xbox360: return xbox360.bumper1R();        default: return null;} }
-    public Trigger buttonUp()           { switch (type) {case PS4: return cmdPS4.triangle();        case PS5: return cmdPS5.triangle();         case GuliKit: return guliKit.buttonY();         case Xbox: return cmdXbox.y();                          case Xbox360: return xbox360.triangle();        default: return null;} }
-    public Trigger buttonRight()        { switch (type) {case PS4: return cmdPS4.circle();          case PS5: return cmdPS5.circle();           case GuliKit: return guliKit.buttonB();         case Xbox: return cmdXbox.b();                          case Xbox360: return xbox360.circle();          default: return null;} }
-    public Trigger buttonDown()         { switch (type) {case PS4: return cmdPS4.cross();           case PS5: return cmdPS5.cross();            case GuliKit: return guliKit.buttonA();         case Xbox: return cmdXbox.a();                          case Xbox360: return xbox360.cross();           default: return null;} }
-    public Trigger buttonLeft()         { switch (type) {case PS4: return cmdPS4.square();          case PS5: return cmdPS5.square();           case GuliKit: return guliKit.buttonX();         case Xbox: return cmdXbox.x();                          case Xbox360: return xbox360.square();          default: return null;} }
-    public Trigger dpadUp()             { switch (type) {case PS4: return cmdPS4.povUp();           case PS5: return cmdPS5.povUp();            case GuliKit: return guliKit.dpadUp();          case Xbox: return cmdXbox.povUp();                      case Xbox360: return xbox360.dpadUp();          default: return null;} }
-    public Trigger dpadRight()          { switch (type) {case PS4: return cmdPS4.povRight();        case PS5: return cmdPS5.povRight();         case GuliKit: return guliKit.dpadRight();       case Xbox: return cmdXbox.povRight();                   case Xbox360: return xbox360.dpadRight();       default: return null;} }
-    public Trigger dpadDown()           { switch (type) {case PS4: return cmdPS4.povDown();         case PS5: return cmdPS5.povDown();          case GuliKit: return guliKit.dpadDown();        case Xbox: return cmdXbox.povDown();                    case Xbox360: return xbox360.dpadDown();        default: return null;} }
-    public Trigger dpadLeft()           { switch (type) {case PS4: return cmdPS4.povLeft();         case PS5: return cmdPS5.povLeft();          case GuliKit: return guliKit.dpadLeft();        case Xbox: return cmdXbox.povLeft();                    case Xbox360: return xbox360.dpadLeft();        default: return null;} }
-    public Trigger joystickLeft()       { switch (type) {case PS4: return cmdPS4.L3();              case PS5: return cmdPS5.L3();               case GuliKit: return guliKit.buttonLeftJoy();   case Xbox: return cmdXbox.leftStick();                  case Xbox360: return xbox360.leftJoy();         default: return null;} }
-    public Trigger joystickRight()      { switch (type) {case PS4: return cmdPS4.R3();              case PS5: return cmdPS5.R3();               case GuliKit: return guliKit.buttonRightJoy();  case Xbox: return cmdXbox.rightStick();                 case Xbox360: return xbox360.rightJoy();        default: return null;} }
-    public Trigger controllerLeft()     { switch (type) {case PS4: return cmdPS4.share();           case PS5: return cmdPS5.create();           case GuliKit: return guliKit.buttonMinus();     case Xbox: return cmdXbox.start();                      case Xbox360: return xbox360.share();           default: return null;} }
-    public Trigger controllerRight()    { switch (type) {case PS4: return cmdPS4.options();         case PS5: return cmdPS5.options();          case GuliKit: return guliKit.buttonPlus();      case Xbox: return cmdXbox.back();                       case Xbox360: return xbox360.options();         default: return null;} }
+    public double getLeftX()            { switch (type) {case PS4: return ps4.getLeftX();           case PS5: return ps5.getLeftX();            case Xbox: return xbox.getLeftX();                      default: return 0.0;} }
+    public double getLeftY()            { switch (type) {case PS4: return ps4.getLeftY();           case PS5: return ps5.getLeftY();            case Xbox: return xbox.getLeftY();                      default: return 0.0;} }
+    public double getRightX()           { switch (type) {case PS4: return ps4.getRightX();          case PS5: return ps5.getRightX();           case Xbox: return xbox.getRightX();                     default: return 0.0;} }
+    public double getRightY()           { switch (type) {case PS4: return ps4.getRightY();          case PS5: return ps5.getRightY();           case Xbox: return xbox.getRightY();                     default: return 0.0;} }
+    public boolean getTriggerLeft()     { switch (type) {case PS4: return ps4.getL2Button();        case PS5: return ps5.getL2Button();         case Xbox: return xbox.getLeftTriggerAxis() >= 0.65;    default: return false;} }
+    public boolean getTriggerRight()    { switch (type) {case PS4: return ps4.getR2Button();        case PS5: return ps5.getR2Button();         case Xbox: return xbox.getRightTriggerAxis() >= 0.65;   default: return false;} }  
+    public boolean getBumperLeft()      { switch (type) {case PS4: return ps4.getL1Button();        case PS5: return ps5.getL1Button();         case Xbox: return xbox.getLeftBumperButton();           default: return false;} }
+    public boolean getBumperRight()     { switch (type) {case PS4: return ps4.getR1Button();        case PS5: return ps5.getR1Button();         case Xbox: return xbox.getRightBumperButton();          default: return false;} }    
+    public boolean getButtonUp()        { switch (type) {case PS4: return ps4.getTriangleButton();  case PS5: return ps5.getTriangleButton();   case Xbox: return xbox.getXButton();                    default: return false;} }
+    public boolean getButtonRight()     { switch (type) {case PS4: return ps4.getCircleButton();    case PS5: return ps5.getCircleButton();     case Xbox: return xbox.getAButton();                    default: return false;} }
+    public boolean getButtonDown()      { switch (type) {case PS4: return ps4.getCrossButton();     case PS5: return ps5.getCrossButton();      case Xbox: return xbox.getBButton();                    default: return false;} }
+    public boolean getButtonLeft()      { switch (type) {case PS4: return ps4.getSquareButton();    case PS5: return ps5.getSquareButton();     case Xbox: return xbox.getYButton();                    default: return false;} }
+    public boolean getDpadUp()          { switch (type) {case PS4: return ps4.getPOV() == 0;        case PS5: return ps5.getPOV() == 0;         case Xbox: return xbox.getPOV() == 0;                   default: return false;} }
+    public boolean getDpadRight()       { switch (type) {case PS4: return ps4.getPOV() == 90;       case PS5: return ps5.getPOV() == 90;        case Xbox: return xbox.getPOV() == 90;                  default: return false;} }
+    public boolean getDpadDown()        { switch (type) {case PS4: return ps4.getPOV() == 180;      case PS5: return ps5.getPOV() == 180;       case Xbox: return xbox.getPOV() == 180;                 default: return false;} }
+    public boolean getDpadLeft()        { switch (type) {case PS4: return ps4.getPOV() == 270;      case PS5: return ps5.getPOV() == 270;       case Xbox: return xbox.getPOV() == 270;                 default: return false;} }
+    public boolean getJoystickLeft()    { switch (type) {case PS4: return ps4.getL3Button();        case PS5: return ps5.getL3Button();         case Xbox: return xbox.getLeftStickButton();            default: return false;} }
+    public boolean getJoystickRight()   { switch (type) {case PS4: return ps4.getR3Button();        case PS5: return ps5.getR3Button();         case Xbox: return xbox.getRightStickButton();           default: return false;} }
+    public boolean getControllerLeft()  { switch (type) {case PS4: return ps4.getShareButton();     case PS5: return ps5.getCreateButton();     case Xbox: return xbox.getStartButton();                default: return false;} }
+    public boolean getControllerRight() { switch (type) {case PS4: return ps4.getOptionsButton();   case PS5: return ps5.getOptionsButton();    case Xbox: return xbox.getBackButton();                 default: return false;} }
+    public Trigger triggerLeft()        { switch (type) {case PS4: return cmdPS4.L2();              case PS5: return cmdPS5.L2();               case Xbox: return cmdXbox.leftTrigger();                default: return null;} }
+    public Trigger triggerRight()       { switch (type) {case PS4: return cmdPS4.R2();              case PS5: return cmdPS5.R2();               case Xbox: return cmdXbox.rightTrigger();               default: return null;} }
+    public Trigger bumperLeft()         { switch (type) {case PS4: return cmdPS4.L1();              case PS5: return cmdPS5.L1();               case Xbox: return cmdXbox.leftBumper();                 default: return null;} }
+    public Trigger bumperRight()        { switch (type) {case PS4: return cmdPS4.R1();              case PS5: return cmdPS5.R1();               case Xbox: return cmdXbox.rightBumper();                default: return null;} }
+    public Trigger buttonUp()           { switch (type) {case PS4: return cmdPS4.triangle();        case PS5: return cmdPS5.triangle();         case Xbox: return cmdXbox.y();                          default: return null;} }
+    public Trigger buttonRight()        { switch (type) {case PS4: return cmdPS4.circle();          case PS5: return cmdPS5.circle();           case Xbox: return cmdXbox.b();                          default: return null;} }
+    public Trigger buttonDown()         { switch (type) {case PS4: return cmdPS4.cross();           case PS5: return cmdPS5.cross();            case Xbox: return cmdXbox.a();                          default: return null;} }
+    public Trigger buttonLeft()         { switch (type) {case PS4: return cmdPS4.square();          case PS5: return cmdPS5.square();           case Xbox: return cmdXbox.x();                          default: return null;} }
+    public Trigger dpadUp()             { switch (type) {case PS4: return cmdPS4.povUp();           case PS5: return cmdPS5.povUp();            case Xbox: return cmdXbox.povUp();                      default: return null;} }
+    public Trigger dpadRight()          { switch (type) {case PS4: return cmdPS4.povRight();        case PS5: return cmdPS5.povRight();         case Xbox: return cmdXbox.povRight();                   default: return null;} }
+    public Trigger dpadDown()           { switch (type) {case PS4: return cmdPS4.povDown();         case PS5: return cmdPS5.povDown();          case Xbox: return cmdXbox.povDown();                    default: return null;} }
+    public Trigger dpadLeft()           { switch (type) {case PS4: return cmdPS4.povLeft();         case PS5: return cmdPS5.povLeft();          case Xbox: return cmdXbox.povLeft();                    default: return null;} }
+    public Trigger joystickLeft()       { switch (type) {case PS4: return cmdPS4.L3();              case PS5: return cmdPS5.L3();               case Xbox: return cmdXbox.leftStick();                  default: return null;} }
+    public Trigger joystickRight()      { switch (type) {case PS4: return cmdPS4.R3();              case PS5: return cmdPS5.R3();               case Xbox: return cmdXbox.rightStick();                 default: return null;} }
+    public Trigger controllerLeft()     { switch (type) {case PS4: return cmdPS4.share();           case PS5: return cmdPS5.create();           case Xbox: return cmdXbox.start();                      default: return null;} }
+    public Trigger controllerRight()    { switch (type) {case PS4: return cmdPS4.options();         case PS5: return cmdPS5.options();          case Xbox: return cmdXbox.back();                       default: return null;} }
 
     // ***** STATE METHODS ***** //
 
     /** <STRONG> GULIKIT ONLY </STRONG> */
-    public void setDigLeft(boolean isDigital) {
-        if (this.type == Type.GuliKit)
-            guliKit.setDigLeft(isDigital);
-    }
-    /** <STRONG> GULIKIT ONLY </STRONG> */
-    public void setDigRight(boolean isDigital) {
-        if (this.type == Type.GuliKit)
-            guliKit.setDigRight(isDigital);
-    }
-
-    /** <STRONG> GULIKIT ONLY </STRONG> */
-    public boolean isDigLeft() {
-        if (this.type == Type.GuliKit)
-            return guliKit.isDigLeft();
-        return true;
-    }
-    /** <STRONG> GULIKIT ONLY </STRONG> */
-    public boolean isDigRight() {
-        if (this.type == Type.GuliKit)
-            return guliKit.isDigRight();
-        return true;
-    }
+    
 
     /**
      * returns analog value from left trigger
