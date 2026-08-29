@@ -13,6 +13,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.*;
+import frc.robot.subsystems.NerdDrivetrain;
 
 //TODO
 // import frc.robot.subsystems.NerdDrivetrain;
@@ -138,6 +139,7 @@ public class TunerConstants {
     private static final int kFrontLeftDriveMotorId = 21;
     private static final int kFrontLeftSteerMotorId = 22;
     private static final int kFrontLeftEncoderId = 24;
+    private static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.026123046875);
     private static final boolean kFrontLeftSteerMotorInverted = true;
     private static final boolean kFrontLeftEncoderInverted = false;
 
@@ -148,6 +150,7 @@ public class TunerConstants {
     private static final int kFrontRightDriveMotorId = 11;
     private static final int kFrontRightSteerMotorId = 12;
     private static final int kFrontRightEncoderId = 14;
+    private static final Angle kFrontRightEncoderOffset = Rotations.of(0.481201171875);
     private static final boolean kFrontRightSteerMotorInverted = true;
     private static final boolean kFrontRightEncoderInverted = false;
 
@@ -158,6 +161,7 @@ public class TunerConstants {
     private static final int kBackLeftDriveMotorId = 31;
     private static final int kBackLeftSteerMotorId = 32;
     private static final int kBackLeftEncoderId = 34;
+    private static final Angle kBackLeftEncoderOffset = Rotations.of(-0.453857421875);
     private static final boolean kBackLeftSteerMotorInverted = true;
     private static final boolean kBackLeftEncoderInverted = false;
 
