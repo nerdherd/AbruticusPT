@@ -138,7 +138,6 @@ public class TunerConstants {
     private static final int kFrontLeftDriveMotorId = 21;
     private static final int kFrontLeftSteerMotorId = 22;
     private static final int kFrontLeftEncoderId = 24;
-    private static final Angle kFrontLeftEncoderOffset = Rotations.of(0.067626953125);
     private static final boolean kFrontLeftSteerMotorInverted = true;
     private static final boolean kFrontLeftEncoderInverted = false;
 
@@ -149,7 +148,6 @@ public class TunerConstants {
     private static final int kFrontRightDriveMotorId = 11;
     private static final int kFrontRightSteerMotorId = 12;
     private static final int kFrontRightEncoderId = 14;
-    private static final Angle kFrontRightEncoderOffset = Rotations.of(-0.303466796875);
     private static final boolean kFrontRightSteerMotorInverted = true;
     private static final boolean kFrontRightEncoderInverted = false;
 
@@ -160,7 +158,6 @@ public class TunerConstants {
     private static final int kBackLeftDriveMotorId = 31;
     private static final int kBackLeftSteerMotorId = 32;
     private static final int kBackLeftEncoderId = 34;
-    private static final Angle kBackLeftEncoderOffset = Rotations.of(0.00537109375);
     private static final boolean kBackLeftSteerMotorInverted = true;
     private static final boolean kBackLeftEncoderInverted = false;
 
@@ -171,7 +168,7 @@ public class TunerConstants {
     private static final int kBackRightDriveMotorId = 41;
     private static final int kBackRightSteerMotorId = 42;
     private static final int kBackRightEncoderId = 44;
-    private static final Angle kBackRightEncoderOffset = Rotations.of(0.0615234375);
+    private static final Angle kBackRightEncoderOffset = Rotations.of(0.35546875);
     private static final boolean kBackRightSteerMotorInverted = true;
     private static final boolean kBackRightEncoderInverted = false;
 
@@ -205,12 +202,12 @@ public class TunerConstants {
      * This should only be called once in your robot program.
      */
 
-     //TODO
-    // public static NerdDrivetrain createDrivetrain() {
-    //     return new NerdDrivetrain(
-    //         DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight
-    //     );
-    // }
+     
+    public static NerdDrivetrain createDrivetrain() {
+        return new NerdDrivetrain(
+            DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight
+        );
+    }
 
 
     /**
